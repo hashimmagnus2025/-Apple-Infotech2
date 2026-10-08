@@ -26,11 +26,11 @@ export function Mark({ className, title }: { className?: string; title?: string 
 export function Logo({ className = "", tagline = false }: { className?: string; tagline?: boolean }) {
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
-      <Mark className="h-10 w-10 shrink-0" />
+      <Mark className="h-9 w-9 shrink-0" />
       <span className="flex flex-col leading-none">
-        <span className="text-[1.3rem] font-extrabold tracking-[-0.03em]">Apple</span>
-        <span className="mt-[0.2rem] text-[0.82rem] font-medium tracking-[0.04em] opacity-90">Infotech</span>
-        {tagline && <span className="serif mt-2 text-[0.8rem] not-italic opacity-70">We Ensure Better ROI</span>}
+        <span className="text-[1.2rem] font-bold tracking-[-0.035em]">Apple</span>
+        <span className="mt-[0.18rem] text-[0.78rem] font-medium tracking-[0.03em] opacity-80">Infotech</span>
+        {tagline && <span className="mt-2 text-[0.75rem] opacity-60">We Ensure Better ROI</span>}
       </span>
     </span>
   );

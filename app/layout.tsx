@@ -2,31 +2,16 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/lib/site";
-import Loader from "@/components/Loader";
+import RevealObserver from "@/components/RevealObserver";
 import SmoothScroll from "@/components/SmoothScroll";
 import CursorLoader from "@/components/CursorLoader";
 
-const interTight = localFont({
-  src: "./fonts/InterTight-var.woff2",
-  variable: "--font-inter-tight",
+const inter = localFont({
+  src: "./fonts/Inter-var.woff2",
+  variable: "--font-inter",
   weight: "100 900",
   display: "swap",
-});
-
-const instrument = localFont({
-  src: [
-    { path: "./fonts/InstrumentSerif-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/InstrumentSerif-Italic.woff2", weight: "400", style: "italic" },
-  ],
-  variable: "--font-instrument",
-  display: "swap",
-});
-
-const jbMono = localFont({
-  src: "./fonts/JetBrainsMono-var.woff2",
-  variable: "--font-jb-mono",
-  weight: "100 800",
-  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -61,23 +46,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: site.themeColor,
-  colorScheme: "light dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${interTight.variable} ${instrument.variable} ${jbMono.variable}`}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        {/* progressive enhancement flag — content stays visible without JS */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
-        <noscript>
-          <style>{`.loader{display:none!important}`}</style>
-        </noscript>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Loader />
+        <RevealObserver />
         <SmoothScroll />
         <CursorLoader />
         {children}

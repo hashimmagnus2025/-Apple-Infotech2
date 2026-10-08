@@ -1,55 +1,37 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Apple Infotech — Demo 02 design tokens
-   Black + White + Ice/Steel blue. No other hues.
+   Apple Infotech — Demo 02 · editorial / Swiss / architectural
+   WHITE + BLACK + ICE BLUE. Blue is an accent, never a field.
 ------------------------------------------------------------------- */
 @theme {
   --color-ink: #050505;
-  --color-deep: #070B11;
   --color-paper: #ffffff;
-  --color-mist: #f4f6f8;
-  --color-ice: #AEC4E2;
-  --color-ice-soft: #DCE6F3;
-  --color-steel: #6B8DBB;
-  --color-steel-ink: #3A5883; /* AA-safe steel for small text on light */
+  --color-mist: #f5f6f7;
+  --color-ice: #b9c6d8;
+  --color-steel: #71839a;
+  --color-steel-ink: #4e6078; /* AA-safe blue-gray for small text on white */
 
-  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
-  --font-mono: var(--font-jb-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
-  --gutter: clamp(1.25rem, 4vw, 4.5rem);
-  --nav-h: 5rem;
-  --mark-accent: #AEC4E2;
-}
-
-/* Navbar theme (switched by ScrollTrigger without re-rendering React) */
-[data-theme="dark"] {
-  color: #fff;
-}
-[data-theme="light"] {
-  color: #050505;
-}
-[data-theme="light"] .btn {
-  --btn-fill: var(--color-ink);
-  --btn-hover-ink: #fff;
+  --gutter: clamp(1.25rem, 3.2vw, 3rem);
+  --gap: clamp(0.75rem, 1.6vw, 1.5rem);
+  --nav-h: 4.25rem;
+  --mark-accent: #aec4e2; /* edge blue, sampled from the supplied logo */
 }
 
 html {
-  background: var(--color-ink);
-  color-scheme: light;
+  background: var(--color-paper);
   -webkit-text-size-adjust: 100%;
   scrollbar-width: none;
 }
 html::-webkit-scrollbar {
   display: none;
 }
-
 html.lenis,
 html.lenis body {
   height: auto;
@@ -57,16 +39,13 @@ html.lenis body {
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
 .lenis.lenis-stopped {
   overflow: hidden;
 }
 
 body {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-paper);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
@@ -84,16 +63,12 @@ svg {
   display: block;
 }
 
-/* ------------------------------------------------------------------
-   Focus — always visible, theme-aware
-------------------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--color-ice);
+  outline: 2px solid var(--color-ink);
   outline-offset: 4px;
-  border-radius: 2px;
 }
-.on-light :focus-visible {
-  outline-color: var(--color-ink);
+.on-dark :focus-visible {
+  outline-color: var(--color-ice);
 }
 
 .skip-link {
@@ -101,17 +76,16 @@ svg {
   left: 1rem;
   top: -4rem;
   z-index: 200;
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
   padding: 0.75rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
-  transition: top 0.25s var(--ease-expo);
+  transition: top 0.25s var(--ease-out);
 }
 .skip-link:focus {
   top: 1rem;
 }
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -125,82 +99,169 @@ svg {
 }
 
 /* ------------------------------------------------------------------
-   Typography primitives
+   Typography — one family (Inter, variable), few weights
 ------------------------------------------------------------------- */
 .display {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  letter-spacing: -0.045em;
+  font-weight: 650;
+  letter-spacing: -0.058em;
   line-height: 0.86;
   text-transform: uppercase;
 }
-.display-sentence {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.92;
+.headline {
+  font-weight: 600;
+  letter-spacing: -0.048em;
+  line-height: 0.98;
 }
-.serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  text-transform: none;
-}
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+.label {
+  font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
-.mono {
-  font-family: var(--font-mono);
-}
-
-/* Masked line wrappers used by SplitText */
-.line-mask {
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+.tnum {
+  font-variant-numeric: tabular-nums;
 }
 
 /* ------------------------------------------------------------------
-   Layout helpers
+   Grid — 12 columns, large margins
 ------------------------------------------------------------------- */
 .shell {
-  padding-inline: var(--gutter);
-  max-width: 120rem;
+  width: 100%;
+  max-width: 100rem;
   margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
 }
 
-.hairline {
-  height: 1px;
-  background: currentColor;
-  opacity: 0.16;
+.rule {
+  border-color: rgb(5 5 5 / 0.16);
+}
+.on-dark .rule {
+  border-color: rgb(255 255 255 / 0.2);
 }
 
 /* ------------------------------------------------------------------
-   Buttons — custom arrow swap + border reaction
+   Reveal system — CSS transitions toggled once by one IntersectionObserver.
+   transform + opacity only. No-JS and reduced-motion show everything.
+------------------------------------------------------------------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity 0.9s var(--ease-out) var(--d, 0s),
+    transform 0.9s var(--ease-out) var(--d, 0s);
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* line masks: wrapper clips, child slides up */
+[data-mask] {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+[data-mask] > * {
+  display: block;
+}
+.js [data-mask] > * {
+  transform: translate3d(0, 108%, 0);
+  transition: transform 1.15s var(--ease-out) var(--d, 0s);
+}
+.js [data-mask].is-in > * {
+  transform: none;
+}
+
+/* images: gentle settle from 1.03 */
+.js [data-img] img {
+  transform: scale(1.03);
+  transition: transform 1.6s var(--ease-out);
+}
+.js [data-img].is-in img {
+  transform: none;
+}
+
+/* hairlines that draw once */
+.js [data-rule] {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease-out) var(--d, 0s);
+}
+.js [data-rule].is-in {
+  transform: none;
+}
+
+/* ------------------------------------------------------------------
+   Hero intro — short, runs once (html.ready is added after first paint)
+------------------------------------------------------------------- */
+.js .hi {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 0.8s var(--ease-out) var(--d, 0s),
+    transform 0.8s var(--ease-out) var(--d, 0s);
+}
+.js .hi-line {
+  clip-path: inset(0 0 100% 0);
+  transform: translate3d(0, 26%, 0);
+  transition:
+    clip-path 0.9s var(--ease-out) var(--d, 0s),
+    transform 0.9s var(--ease-out) var(--d, 0s);
+}
+.js .hi-img img {
+  transform: scale(1.03);
+  transition: transform 1.3s var(--ease-out) 0.15s;
+}
+.js .hi-frame {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out) 0.1s;
+}
+.js.ready .hi {
+  opacity: 1;
+  transform: none;
+}
+.js.ready .hi-line {
+  clip-path: inset(0 0 -0.2em 0);
+  transform: none;
+}
+.js.ready .hi-img img {
+  transform: none;
+}
+.js.ready .hi-frame {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------
+   Buttons — editorial: square, hairline, arrow swap, fill wipe
 ------------------------------------------------------------------- */
 .btn {
+  --fg: var(--color-ink);
+  --bg: transparent;
+  --fill: var(--color-ink);
+  --fill-fg: var(--color-paper);
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.9rem;
-  padding: 1rem 1.5rem 1rem 1.75rem;
+  padding: 1rem 1.35rem 1rem 1.6rem;
   border: 1px solid currentColor;
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
+  color: var(--fg);
+  background: var(--bg);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   isolation: isolate;
-  transition:
-    color 0.5s var(--ease-expo),
-    border-color 0.5s var(--ease-expo);
+  transition: color 0.45s var(--ease-out);
   -webkit-tap-highlight-color: transparent;
 }
 .btn::before {
@@ -208,31 +269,23 @@ svg {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--btn-fill, var(--color-ice));
-  transform: translateY(101%);
-  transition: transform 0.6s var(--ease-expo);
+  background: var(--fill);
+  transform: translate3d(0, 101%, 0);
+  transition: transform 0.55s var(--ease-out);
 }
 .btn:hover::before,
 .btn:focus-visible::before {
-  transform: translateY(0);
+  transform: none;
 }
 .btn:hover,
 .btn:focus-visible {
-  color: var(--btn-hover-ink, var(--color-ink));
-  border-color: var(--btn-fill, var(--color-ice));
-}
-.btn-label {
-  display: inline-block;
-  transition: transform 0.5s var(--ease-expo);
-}
-.btn:hover .btn-label {
-  transform: translateX(-2px);
+  color: var(--fill-fg);
 }
 .btn-arrow {
   position: relative;
   display: inline-block;
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.05rem;
+  height: 1.05rem;
   overflow: hidden;
 }
 .btn-arrow > svg {
@@ -240,39 +293,39 @@ svg {
   inset: 0;
   width: 100%;
   height: 100%;
-  transition: transform 0.55s var(--ease-expo);
+  transition: transform 0.5s var(--ease-out);
 }
 .btn-arrow > svg:last-child {
-  transform: translateX(-160%);
+  transform: translate3d(-160%, 0, 0);
 }
 .btn:hover .btn-arrow > svg:first-child,
 .btn:focus-visible .btn-arrow > svg:first-child {
-  transform: translateX(160%);
+  transform: translate3d(160%, 0, 0);
 }
 .btn:hover .btn-arrow > svg:last-child,
 .btn:focus-visible .btn-arrow > svg:last-child {
-  transform: translateX(0);
+  transform: none;
 }
-
 .btn--solid {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  border-color: var(--color-paper);
-  --btn-fill: var(--color-ice);
-}
-.btn--ink {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  --bg: var(--color-ink);
+  --fg: var(--color-paper);
+  --fill: var(--color-ice);
+  --fill-fg: var(--color-ink);
   border-color: var(--color-ink);
-  --btn-fill: var(--color-ice);
-  --btn-hover-ink: var(--color-ink);
 }
-.btn--ghost-ink {
-  --btn-fill: var(--color-ink);
-  --btn-hover-ink: var(--color-paper);
+.on-dark .btn {
+  --fg: var(--color-paper);
+  --fill: var(--color-paper);
+  --fill-fg: var(--color-ink);
+}
+.on-dark .btn--solid {
+  --bg: var(--color-paper);
+  --fg: var(--color-ink);
+  --fill: var(--color-ice);
+  border-color: var(--color-paper);
 }
 
-/* Animated underline for links */
+/* underline link */
 .u-link {
   position: relative;
   display: inline-block;
@@ -282,155 +335,86 @@ svg {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -0.2em;
+  bottom: -0.25em;
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.55s var(--ease-expo);
+  transition: transform 0.5s var(--ease-out);
 }
 .u-link:hover::after,
-.u-link:focus-visible::after,
-.u-link[aria-current="true"]::after {
+.u-link:focus-visible::after {
   transform: scaleX(1);
   transform-origin: left;
 }
 
 /* ------------------------------------------------------------------
-   Section tones
+   Cursor (desktop fine-pointer only) — transform + opacity only
 ------------------------------------------------------------------- */
-.tone-dark {
-  background: var(--color-ink);
-  color: var(--color-paper);
-}
-.tone-white {
-  background: var(--color-paper);
-  color: var(--color-ink);
-}
-.tone-ice {
-  background: var(--color-ice-soft);
-  color: var(--color-ink);
-}
-.tone-mist {
-  background: var(--color-mist);
-  color: var(--color-ink);
-}
-
-/* ------------------------------------------------------------------
-   Loader
-------------------------------------------------------------------- */
-.loader {
+.cursor {
   position: fixed;
-  inset: 0;
-  z-index: 300;
-  background: var(--color-ink);
+  left: 0;
+  top: 0;
+  z-index: 400;
+  pointer-events: none;
+  width: 84px;
+  height: 84px;
+  margin: -42px 0 0 -42px;
+  border-radius: 9999px;
+  background: var(--color-ice);
+  color: var(--color-ink);
   display: grid;
   place-items: center;
-  overflow: hidden;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  will-change: transform;
 }
-
-/* ------------------------------------------------------------------
-   Custom cursor
-------------------------------------------------------------------- */
+.cursor-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: grid;
+  place-items: center;
+  transform: scale(0);
+  transition: transform 0.45s var(--ease-out);
+}
+.cursor.is-on .cursor-inner {
+  transform: scale(1);
+}
 @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
-  .has-cursor,
-  .has-cursor a,
-  .has-cursor button,
-  .has-cursor [data-cursor] {
+  html.has-cursor [data-cursor] {
     cursor: none;
   }
 }
 
 /* ------------------------------------------------------------------
-   Ambient animation (CSS only — cheap, GPU friendly)
+   Reduced motion: everything visible, no transitions, no smooth scroll
 ------------------------------------------------------------------- */
-@keyframes drift-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes flow-dash {
-  to {
-    stroke-dashoffset: -64;
-  }
-}
-@keyframes pulse-soft {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.9;
-  }
-}
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-100%);
-  }
-  60%,
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-.spin-slow {
-  animation: drift-slow 140s linear infinite;
-  transform-origin: 50% 50%;
-  transform-box: fill-box;
-}
-.spin-slower {
-  animation: drift-slow 220s linear infinite reverse;
-  transform-origin: 50% 50%;
-  transform-box: fill-box;
-}
-
-/* Service / solution SVG drawing system: lines draw in when .is-active */
-.draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.4s var(--ease-expo);
-}
-.is-active .draw {
-  stroke-dashoffset: 0;
-}
-.fade-in {
-  opacity: 0;
-  transition: opacity 0.9s var(--ease-expo) 0.2s;
-}
-.is-active .fade-in {
-  opacity: 1;
-}
-.flow {
-  stroke-dasharray: 6 10;
-  animation: flow-dash 2.4s linear infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .draw {
-    stroke-dashoffset: 0;
-  }
-  .fade-in {
+  .js [data-reveal],
+  .js [data-mask] > *,
+  .js [data-img] img,
+  .js [data-rule],
+  .js .hi,
+  .js .hi-line,
+  .js .hi-img img,
+  .js .hi-frame {
     opacity: 1;
+    transform: none;
+    clip-path: none;
   }
 }
 
-/* No-JS: never trap the user behind the loader */
-.no-js .loader {
-  display: none;
-}
-
-/* Hide native scrollbars on custom scrollers */
 .no-scrollbar {
   scrollbar-width: none;
 }
@@ -438,22 +422,27 @@ svg {
   display: none;
 }
 
-/* ------------------------------------------------------------------
-   Transformation — reduced-motion desktop fallback (no pin, vertical)
-------------------------------------------------------------------- */
-@media (min-width: 1024px) {
-  .tf-wrap.tf-vertical {
-    height: auto;
-    overflow: visible;
+/* ROI hairlines — stroke draws once when its section enters */
+.roi-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.8s var(--ease-out) var(--d, 0s);
+}
+.is-in .roi-line {
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .roi-line {
+    stroke-dashoffset: 0;
   }
-  .tf-vertical .tf-track {
-    display: block;
-    width: auto;
-    height: auto;
-  }
-  .tf-vertical .tf-panel {
-    width: auto;
-    height: auto;
-    min-height: 90svh;
-  }
+}
+
+/* navbar over dark sections */
+header[data-theme="dark"] .btn {
+  --fg: var(--color-paper);
+  --fill: var(--color-paper);
+  --fill-fg: var(--color-ink);
+}
+header[data-theme="dark"] {
+  --mark-accent: #aec4e2;
 }

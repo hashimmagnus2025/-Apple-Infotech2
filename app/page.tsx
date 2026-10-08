@@ -1,12 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import BrandStatement from "@/components/BrandStatement";
+import Statement from "@/components/Statement";
 import Services from "@/components/Services";
-import Transformation from "@/components/Transformation";
+import ImageStory from "@/components/ImageStory";
+import Process from "@/components/Process";
 import ROIExperience from "@/components/ROIExperience";
 import ImpactStats from "@/components/ImpactStats";
 import Solutions from "@/components/Solutions";
-import ImageStory from "@/components/ImageStory";
 import WhyUs from "@/components/WhyUs";
 import Projects from "@/components/Projects";
 import FinalStatement from "@/components/FinalStatement";
@@ -21,13 +21,13 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
-        <BrandStatement />
+        <Statement />
         <Services />
-        <Transformation />
+        <ImageStory />
+        <Process />
         <ROIExperience />
         <ImpactStats />
         <Solutions />
-        <ImageStory />
         <WhyUs />
         <Projects />
         <FinalStatement />

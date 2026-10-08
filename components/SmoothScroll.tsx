@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
-import Lenis from "lenis";
-import { gsap, ScrollTrigger } from "@/animations/gsap";
-import { prefersReducedMotion } from "@/animations/motion";
-import { isIntroReady, onIntroReady } from "@/animations/intro";
+import { MQ, prefersReducedMotion } from "@/animations/motion";
 import { scrollToTarget, setLenis } from "@/animations/lenis";
 
 /**
- * Lenis smooth scrolling wired into GSAP's ticker so ScrollTrigger and Lenis
- * share one clock. Also owns in-page anchor navigation.
+ * The ONE Lenis instance for the whole site.
+ * - Lenis + GSAP are dynamically imported and only on mouse/trackpad desktops
+ *   without reduced-motion. Phones/tablets keep native momentum scrolling and
+ *   never download either library.
+ * - Lenis is driven by GSAP's ticker → a single requestAnimationFrame loop.
+ * - ScrollTrigger (used only by a few transform-only parallax layers) is
+ *   updated from Lenis' scroll event and refreshed once after fonts load.
+ * Also owns in-page anchor navigation.
  */
 export default function SmoothScroll() {
   useEffect(() => {
@@ -26,36 +29,31 @@ export default function SmoothScroll() {
     };
     document.addEventListener("click", onClick);
 
-    let lenis: Lenis | null = null;
-    let tick: ((t: number) => void) | null = null;
-    let off: (() => void) | undefined;
+    let disposed = false;
+    let cleanup: (() => void) | undefined;
 
-    if (!prefersReducedMotion()) {
-      lenis = new Lenis({
-        duration: 1.15,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
+    if (window.matchMedia(MQ.fine).matches && !prefersReducedMotion()) {
+      Promise.all([import("lenis"), import("@/animations/gsap")]).then(([{ default: Lenis }, { gsap, ScrollTrigger }]) => {
+        if (disposed) return;
+        const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, autoRaf: false });
+        setLenis(lenis);
+        lenis.on("scroll", ScrollTrigger.update);
+        const tick = (t: number) => lenis.raf(t * 1000);
+        gsap.ticker.add(tick);
+        gsap.ticker.lagSmoothing(0);
+        document.fonts?.ready.then(() => ScrollTrigger.refresh());
+        cleanup = () => {
+          gsap.ticker.remove(tick);
+          lenis.destroy();
+          setLenis(null);
+        };
       });
-      setLenis(lenis);
-      lenis.on("scroll", ScrollTrigger.update);
-      tick = (t: number) => lenis?.raf(t * 1000);
-      gsap.ticker.add(tick);
-      gsap.ticker.lagSmoothing(0);
-      if (!isIntroReady()) lenis.stop();
-      off = onIntroReady(() => lenis?.start());
     }
 
-    const refresh = () => ScrollTrigger.refresh();
-    document.fonts?.ready.then(refresh);
-    window.addEventListener("load", refresh);
-
     return () => {
+      disposed = true;
       document.removeEventListener("click", onClick);
-      window.removeEventListener("load", refresh);
-      off?.();
-      if (tick) gsap.ticker.remove(tick);
-      lenis?.destroy();
-      setLenis(null);
+      cleanup?.();
     };
   }, []);
 

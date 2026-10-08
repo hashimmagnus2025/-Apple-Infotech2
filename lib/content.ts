@@ -12,10 +12,11 @@ export const navLinks = [
 ] as const;
 
 export const hero = {
-  eyebrow: "We Ensure Better ROI",
-  lines: ["We build", "technology", "that moves", "business."],
+  label: "Technology solutions",
+  lines: ["We ensure", "better ROI."],
   copy: "Apple Infotech designs, engineers and runs the technology businesses depend on — and measures every decision by the return it delivers.",
   cta: { label: "Explore Technology Solutions", href: "#capabilities" },
+  caption: "[CLIENT IMAGERY] — Fig. 01",
 };
 
 export const statement = {
@@ -28,6 +29,7 @@ export const statement = {
 
 export type Service = {
   id: string;
+  image: string;
   index: string;
   title: string;
   short: string;
@@ -41,6 +43,7 @@ export const services = {
   items: [
     {
       id: "digital-solutions",
+      image: "/images/grid.jpg",
       index: "01",
       title: "Digital Solutions",
       short: "Connected digital architecture",
@@ -50,6 +53,7 @@ export const services = {
     },
     {
       id: "technology-services",
+      image: "/images/aisle.jpg",
       index: "02",
       title: "Technology Services",
       short: "A precise technical foundation",
@@ -59,6 +63,7 @@ export const services = {
     },
     {
       id: "business-automation",
+      image: "/images/facade2.jpg",
       index: "03",
       title: "Business Automation",
       short: "Work that flows on its own",
@@ -68,6 +73,7 @@ export const services = {
     },
     {
       id: "enterprise-solutions",
+      image: "/images/facade.jpg",
       index: "04",
       title: "Enterprise Solutions",
       short: "Infrastructure that scales with you",
@@ -77,6 +83,7 @@ export const services = {
     },
     {
       id: "it-consulting",
+      image: "/images/grid.jpg",
       index: "05",
       title: "IT Consulting",
       short: "Strategy with a clear direction",
@@ -102,12 +109,12 @@ export const transformation = {
 export const roi = {
   eyebrow: "04 — Our Promise",
   heading: "We Ensure Better ROI",
-  stages: [
-    { word: "Technology", metric: "[XX]", note: "The right foundation, chosen for the business." },
-    { word: "Efficiency", metric: "[XX]%", note: "Manual effort replaced by reliable systems." },
-    { word: "Productivity", metric: "[XX]%", note: "Teams spend their time on work that moves things." },
-    { word: "Growth", metric: "[XX]×", note: "Capacity to scale without scaling cost." },
-    { word: "ROI", metric: "[XX]%", note: "Measured. Reported. Owned." },
+  word: "ROI",
+  satellites: [
+    { word: "Efficiency", metric: "[XX]%" },
+    { word: "Growth", metric: "[XX]×" },
+    { word: "Performance", metric: "[XX]%" },
+    { word: "Value", metric: "[XX]" },
   ],
   footnote: "Figures shown as [XX] are placeholders until verified client data is supplied.",
 };
@@ -218,7 +225,7 @@ export type Project = {
   technology: string;
   solution: string;
   impact: string;
-  art: "facade" | "grid" | "aisle" | "horizon";
+  image: string;
 };
 
 export const projects = {
@@ -226,10 +233,10 @@ export const projects = {
   heading: "Work that speaks in outcomes.",
   note: "Replaceable placeholders — real case studies to be supplied by Apple Infotech.",
   items: [
-    { id: "p1", index: "01", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", art: "facade" },
-    { id: "p2", index: "02", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", art: "grid" },
-    { id: "p3", index: "03", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", art: "aisle" },
-    { id: "p4", index: "04", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", art: "horizon" },
+    { id: "p1", index: "01", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", image: "/images/facade.jpg" },
+    { id: "p2", index: "02", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", image: "/images/grid.jpg" },
+    { id: "p3", index: "03", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", image: "/images/aisle.jpg" },
+    { id: "p4", index: "04", name: "[PROJECT NAME]", sector: "[SECTOR]", technology: "[Technology]", solution: "[Solution]", impact: "[Impact]", image: "/images/facade2.jpg" },
   ] satisfies Project[],
 };
 
